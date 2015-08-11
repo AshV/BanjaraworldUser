@@ -1,0 +1,595 @@
+﻿@{
+    ViewBag.Title = "Package";
+    tbl_Package p = Model.Package;
+    ViewBag.BG1 = p.pkg_BackgroundImage1;
+    List<string> Coords = ViewBag.Coord;
+    List<string> Prices = ViewBag.Price;
+}
+
+<script>
+    @{
+        @Html.Raw("var prices={")
+    for (int i = 0; i < Coords.Count; i++)
+    {
+        @Html.Raw('"' + Coords[i] + '"' + " : " + '"' + Prices[i] + '"' + ',')
+    }
+    @Html.Raw("}")
+    }
+</script>
+<script>
+    @{
+        @Html.Raw("var pId = '"+p.pkg_ID+"';")
+        @Html.Raw("var pName = '"+p.pkf_Name+"';")
+        @Html.Raw("var pSubtitle = '"+p.pkg_Subtitle+"';")
+        @Html.Raw("var pOverview = '"+p.pkg_Overview+"';")
+        @Html.Raw("var pDescription = '"+p.pkg_Description+"';")
+        @Html.Raw("var pInclusion = '"+p.pkg_Inclusion+"';")
+        @Html.Raw("var pDefaultSeason = '"+p.pkg_DefaultSeason+"';")
+        @Html.Raw("var pDefaultRoom = '"+p.pkg_DefaultRoom+"';")
+        @Html.Raw("var pDefaultDay = '"+p.pkg_DefaultDay+"';")
+        @Html.Raw("var pDayHeading1 = '"+p.pkg_DayHeading1+"';")
+        @Html.Raw("var pDayItinerary1 = '"+p.pkg_DayItinerary1+"';")
+        @Html.Raw("var pDayHeading2 = '"+p.pkg_DayHeading2+"';")
+        @Html.Raw("var pDayItinerary2 = '"+p.pkg_DayItinerary2+"';")
+        @Html.Raw("var pDayHeading3 = '"+p.pkg_DayHeading3+"';")
+        @Html.Raw("var pDayItinerary3 = '"+p.pkg_DayItinerary3+"';")
+        @Html.Raw("var pRoomtype1 = '"+p.pkg_Roomtype1+"';")
+        @Html.Raw("var pRoomtype2 = '"+p.pkg_Roomtype2+"';")
+        @Html.Raw("var pRoomtype3 = '"+p.pkg_Roomtype3+"';")
+        @Html.Raw("var pExclusion = '"+p.tbl_Exclusion.exc_Description+"';")
+        @Html.Raw("var pTnC = '"+p.tbl_TermsAndCondition.tnc_Description+"';")
+        @Html.Raw("var pCancelPolicy = '"+p.tbl_CancelPolicy.cnp_Description+"';")
+    }
+
+    pId.replace("singleQuoteEsc", "'");
+    pName.replace("singleQuoteEsc", "'");
+    pSubtitle.replace("singleQuoteEsc", "'");
+    pOverview.replace("singleQuoteEsc", "'");
+    pDescription.replace("singleQuoteEsc", "'");
+    pInclusion.replace("singleQuoteEsc", "'");
+    pDefaultSeason.replace("singleQuoteEsc", "'");
+    pDefaultRoom.replace("singleQuoteEsc", "'");
+    pDefaultDay.replace("singleQuoteEsc", "'");
+    pDayHeading1.replace("singleQuoteEsc", "'");
+    pDayItinerary1.replace("singleQuoteEsc", "'");
+    pDayHeading2.replace("singleQuoteEsc", "'");
+    pDayItinerary2.replace("singleQuoteEsc", "'");
+    pDayHeading3.replace("singleQuoteEsc", "'");
+    pDayItinerary3.replace("singleQuoteEsc", "'");
+    pRoomtype1.replace("singleQuoteEsc", "'");
+    pRoomtype2.replace("singleQuoteEsc", "'");
+    pRoomtype3.replace("singleQuoteEsc", "'");
+    pExclusion.replace("singleQuoteEsc", "'");
+    pTnC.replace("singleQuoteEsc", "'");
+    pCancelPolicy.replace("singleQuoteEsc", "'");
+
+    var Season;
+    var txSeason;
+    if (pDefaultSeason == 'False') {
+        Season = 1;
+        txSeason = 'On Season';
+    }
+    else if (pDefaultSeason == 'True') {
+        Season = 2;
+        txSeason = 'Off Season';
+    }
+
+    var Days;
+    var Itinerary;
+    if (pDefaultDay == '1') {
+        Days = pDayHeading1;
+        Itinerary = pDayItinerary1;
+    }
+    else if (pDefaultDay == '2') {
+        Days = pDayHeading2;
+        Itinerary = pDayItinerary2;
+    }
+    else if (pDefaultDay == '3') {
+        Days = pDayHeading3;
+        Itinerary = pDayItinerary3;
+    }
+
+    var RoomType;
+    if (pDefaultRoom == '1') {
+        RoomType = pRoomtype1;
+    }
+    else if (pDefaultRoom == '2') {
+        RoomType = pRoomtype2;
+    }
+    else if (pDefaultRoom == '3') {
+        RoomType = pRoomtype3;
+    }
+
+    var coord = pDefaultDay + pDefaultRoom + Season;
+    var Price = prices[coord];
+</script>
+
+
+<div class="container">
+    <div class="well">
+        <div class="row">
+            <div class="col-sm-6" style="text-align:left">
+                <font size="6%">
+                    <script>document.write(pName)</script>
+                </font>
+            </div>
+            <div class="col-sm-6" style="text-align:right">
+                <font size="5%">
+                    <script>document.write(Days)</script>
+                </font>
+            </div>
+        </div>
+        <div style="height:1px;background-color:red"></div>
+        <div style="height:10px"></div>
+        <div class="row">
+            <div class="col-sm-4">
+                <img src="@ViewBag.PicturePath/@p.pkg_SquareImage" class="img-responsive img-rounded" alt="" style="padding-bottom:5px" />
+            </div>
+            <div class="col-sm-8">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <font size="6%">
+                            Rs.
+                            <script>document.write(Price)</script>
+                        </font>
+                    </div>
+                    <div class="col-sm-6" style="text-align:right">
+                        <p class="btn-group">
+                            <a class="btn btn-warning book" href="#BookNow" data-toggle="modal">Book Now</a>
+                            <a class="btn btn-danger book" href="#CustomBook" data-toggle="modal">Get some more</a>
+                        </p>
+                    </div>
+                </div>
+
+                <div style="height:1px;background-color:red"></div>
+                <div style="height:5px"></div>
+
+                <font size="5%">
+                    <script>document.write(pSubtitle)</script>
+                </font>
+                <font size="4%">
+                    <p>
+                        <script>document.write(pOverview)</script>
+                    </p>
+                </font>
+            </div>
+        </div>
+
+
+        <div>
+            <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active"><a href="#Description" aria-controls="home" role="tab" data-toggle="tab" style="color:orangered">Description</a></li>
+                <li role="presentation"><a href="#Itinerary" aria-controls="profile" role="tab" data-toggle="tab" style="color:orangered">Itinerary</a></li>
+                <li role="presentation"><a href="#Inclusions" aria-controls="messages" role="tab" data-toggle="tab" style="color:orangered">Inclusions</a></li>
+                <li role="presentation"><a href="#Exclusions" aria-controls="settings" role="tab" data-toggle="tab" style="color:orangered">Exclusions</a></li>
+                <li role="presentation"><a href="#CancelPolicy" aria-controls="settings" role="tab" data-toggle="tab" style="color:orangered">Cancellation Policy</a></li>
+                <li role="presentation"><a href="#TnCs" aria-controls="settings" role="tab" data-toggle="tab" style="color:orangered">Terms &amp; Conditions</a></li>
+            </ul>
+
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="Description">
+                    <script>document.write(pDescription)</script>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="Itinerary">
+                    <script>document.write(Itinerary)</script>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="Inclusions">
+                    <script>document.write(pInclusion)</script>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="Exclusions">
+                    <script>document.write(pExclusion)</script>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="CancelPolicy">
+                    <script>document.write(pCancelPolicy)</script>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="TnCs">
+                    <script>document.write(pTnC)</script>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<div class="portfolio-modal modal fade" id="CustomBook" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-content">
+        <div class="close-modal" data-dismiss="modal" style="text-align:right">
+            <a href="#">
+                <font size="4%"><i class="fa fa-2x fa-close"></i></font>
+            </a>
+        </div>
+        <div class="">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-sm-8">
+                                <h2>
+                                    <script>document.write(pName)</script>
+                                </h2>
+                            </div>
+                            <div class="col-sm-4" style="text-align:right">
+                                <a class="btn btn-warning" href="#BookNow" data-toggle="modal">
+                                    Book for Rs.<b class="valprice">
+                                        <script>document.write(Price)</script>
+                                    </b> Now
+                                </a>
+                            </div>
+                        </div>
+                        <div style="height:1px;background-color:red"></div>
+                        <div style="height:5px"></div>
+
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <font size="4%">
+                                    In <b class="valroom">
+                                        <script>document.write(RoomType)</script>
+                                    </b> Room for <b class="valday">
+                                        <script>document.write(Days)</script>
+                                    </b> in <b class="valseason">
+                                        <script>document.write(txSeason)</script>
+                                    </b> only for Rs. <b class="valprice">
+                                        <script>document.write(Price)</script>
+                                    </b>.
+                                </font>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <div>
+                                    <div style="height:1px;background-color:red"></div>
+                                    <div style="height:5px"></div>
+                                    <font size="4%"><b>Itinerary</b></font>
+                                    <span class="valitinerary">
+                                        <script>document.write(Itinerary)</script>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6" style="text-align:right">
+
+                                <div class="btn-group" data-toggle="buttons">
+                                    <label class="btn  btn-danger">
+                                        <input class="customPanel" type="radio" name="day" id="day1" value="1" autocomplete="off">
+                                        <script>document.write(pDayHeading1)</script>
+                                    </label>
+                                    <label class="btn  btn-danger">
+                                        <input class="customPanel" type="radio" name="day" id="day2" value="2" autocomplete="off">
+                                        <script>document.write(pDayHeading2)</script>
+                                    </label>
+                                    <label class="btn  btn-danger">
+                                        <input class="customPanel" type="radio" name="day" id="day3" value="3" autocomplete="off">
+                                        <script>document.write(pDayHeading3)</script>
+                                    </label>
+                                </div>
+                                <div style="height:5px"></div>
+                                <div class="btn-group" data-toggle="buttons">
+                                    <label class="btn  btn-danger">
+                                        <input class="customPanel" type="radio" name="room" id="room1" value="1" autocomplete="off">
+                                        <script>document.write(pRoomtype1)</script>
+                                    </label>
+                                    <label class="btn  btn-danger">
+                                        <input class="customPanel" type="radio" name="room" id="room2" value="2" autocomplete="off">
+                                        <script>document.write(pRoomtype2)</script>
+                                    </label>
+                                    <label class="btn  btn-danger">
+                                        <input class="customPanel" type="radio" name="room" id="room3" value="3" autocomplete="off">
+                                        <script>document.write(pRoomtype3)</script>
+                                    </label>
+                                </div>
+                                <div style="height:5px"></div>
+                                <div class="btn-group" data-toggle="buttons">
+                                    <label class="btn  btn-danger">
+                                        <input class="customPanel" type="radio" name="season" id="season1" value="1" autocomplete="off"> On Season
+                                    </label>
+                                    <label class="btn  btn-danger">
+                                        <input class="customPanel" type="radio" name="season" id="season2" value="2" autocomplete="off"> Off Season
+                                    </label>
+                                </div>
+                                <div style="height:5px"></div>
+                                <div style="height:1px;background-color:red"></div>
+                                <div style="height:5px"></div>
+
+                                <div>
+                                    <font size="4%"><b>Inclusions</b></font>
+                                    <p>
+                                        <b class="valroom">
+                                            <script>document.write(RoomType)</script>
+                                        </b> for <b class="valday">
+                                            <script>                                        document.write(Days)</script>
+                                        </b>
+                                    </p>
+                                    <p>
+                                        <script>document.write(pInclusion)</script>
+                                    </p>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div style="height:5px"></div>
+                        <div style="height:1px;background-color:red"></div>
+                        <div style="height:5px"></div>
+                        <div>
+                            <!-- Nav tabs -->
+                            <ul class="nav nav-tabs" role="tablist">
+                                <li role="presentation" class="active"><a href="#mDescription" aria-controls="home" role="tab" data-toggle="tab" style="color:orangered">Description</a></li>
+                                <li role="presentation"><a href="#mExclusions" aria-controls="settings" role="tab" data-toggle="tab" style="color:orangered">Exclusions</a></li>
+                                <li role="presentation"><a href="#mCancelPolicy" aria-controls="settings" role="tab" data-toggle="tab" style="color:orangered">Cancellation Policy</a></li>
+                                <li role="presentation"><a href="#mTnCs" aria-controls="settings" role="tab" data-toggle="tab" style="color:orangered">Terms &amp; Conditions</a></li>
+                            </ul>
+
+                            <!-- Tab panes -->
+                            <div class="tab-content">
+                                <div role="tabpanel" class="tab-pane active" id="mDescription">
+                                    <script>document.write(pDescription)</script>
+                                </div>
+                                <div role="tabpanel" class="tab-pane" id="mExclusions">
+                                    <script>document.write(pExclusion)</script>
+                                </div>
+                                <div role="tabpanel" class="tab-pane" id="mCancelPolicy">
+                                    <script>document.write(pCancelPolicy)</script>
+                                </div>
+                                <div role="tabpanel" class="tab-pane" id="mTnCs">
+                                    <script>document.write(pTnC)</script>
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="portfolio-modal modal fade" id="BookNow" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-content">
+        <div class="close-modal" data-dismiss="modal" style="text-align:right">
+            <a href="#">
+                <font size="4%"><i class="fa fa-2x fa-close"></i></font>
+            </a>
+        </div>
+        <div class="">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <div class="modal-body">
+                        <div class="row">
+                            @using (Html.BeginForm("Booking", "Travel", FormMethod.Post, new { id = "bookForm" }))
+                            {
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label>Package Name</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" name="nPackage" id="Package" readonly>
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Number of Days</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="Day" name="nDay" readonly>
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Roomtype</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="Room" name="nRoom" readonly>
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Price</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="Price" name="nPrice" readonly>
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Season</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="Season" name="nSeason" readonly>
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="InputMessage">Enter Message</label>
+                                        <div class="input-group">
+                                            <textarea name="nMessage" id="Message" placeholder="Any more concerns you have." class="form-control" rows="5"></textarea>
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="form-group">
+                                        <label>Enter Name</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" name="nName" id="Name" placeholder="Enter Name" required>
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Enter Email</label>
+                                        <div class="input-group">
+                                            <input type="email" class="form-control" id="Email" name="nMail" placeholder="Enter Email" required>
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="InputEmail">Mobile Number</label>
+                                        <div class="input-group">
+                                            <input type="tel" class="form-control" id="Mobile" name="nMobile" placeholder="Enter Mobile Number" required>
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="InputEmail">Journey Date</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="Date" name="nDate" placeholder="Enter Journey Date" required>
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="InputEmail">Source Place</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="Source" name="nSource" placeholder="Enter Source Place" required>
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="InputEmail">Destination Place</label>
+                                        <div class="input-group">
+                                            <input type="text" class="form-control" id="Destination" name="nDestination" placeholder="Enter Destination Place" required>
+                                            <span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+                                        </div>
+                                    </div>
+                                    <br />
+                                    <b id="status"></b>
+                                    <input style="width:100%" data-loading-text="Sending..." type="submit" name="submit" id="submit" value="Send Booking Enquiry" class="btn btn-lg btn-success pull-right">
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section jqScripts{
+
+
+<script src="~/scripts/jquery.form.min.js" type="text/javascript"></script>
+
+<script>
+
+        $(document).ready(function () {
+
+            $('#Package').val(pName);
+
+
+            $(".book").click(function () {
+                $('#Price').val(Price);
+            });
+
+            if (pDefaultSeason == 'False') {
+                document.getElementById('season1').checked = true;
+                document.getElementById('season1').parentNode.className += ' active';
+                $('#Season').val('On Season');
+            }
+            else if (pDefaultSeason == 'True') {
+                document.getElementById('season2').checked = true;
+                document.getElementById('season2').parentNode.className += ' active';
+                $('#Season').val('Off Season');
+            }
+
+            if (pDefaultDay == '1') {
+                document.getElementById('day1').checked = true;
+                document.getElementById('day1').parentNode.className += ' active';
+                $('#Day').val(pDayHeading1);
+            }
+            else if (pDefaultDay == '2') {
+                document.getElementById('day2').checked = true;
+                document.getElementById('day2').parentNode.className += ' active';
+                $('#Day').val(pDayHeading2);
+            }
+            else if (pDefaultDay == '3') {
+                document.getElementById('day3').checked = true;
+                document.getElementById('day3').parentNode.className += ' active';
+                $('#Day').val(pDayHeading3);
+            }
+
+            if (pDefaultRoom == '1') {
+                document.getElementById('room1').checked = true;
+                document.getElementById('room1').parentNode.className += ' active';
+                $('#Room').val(pRoomtype1);
+            }
+            else if (pDefaultRoom == '2') {
+                document.getElementById('room2').checked = true;
+                document.getElementById('room2').parentNode.className += ' active';
+                $('#Room').val(pRoomtype2);
+            }
+            else if (pDefaultRoom == '3') {
+                document.getElementById('room3').checked = true;
+                document.getElementById('room3').parentNode.className += ' active';
+                $('#Room').val(pRoomtype3);
+            }
+
+            var key;
+            $(".customPanel").change(function () {
+                var cDay = $('input[name="day"]:checked').val();
+                var cRoom = $('input[name="room"]:checked').val();
+                var cSeason = $('input[name="season"]:checked').val();
+
+                key = cDay + cRoom + cSeason;
+                $(".valprice").html(prices[key]);
+                var CustomPrice = prices[key];
+                $('#Price').val(prices[key]);
+
+                if (cDay == '1') {
+                    $(".valday").html(pDayHeading1);
+                    $(".valitinerary").html(pDayItinerary1);
+                    $('#Day').val(pDayHeading1);
+                }
+                else if (cDay == '2') {
+                    $(".valday").html(pDayHeading2);
+                    $(".valitinerary").html(pDayItinerary2);
+                    $('#Day').val(pDayHeading2);
+                }
+                else if (cDay == '3') {
+                    $(".valday").html(pDayHeading3);
+                    $(".valitinerary").html(pDayItinerary3);
+                    $('#Day').val(pDayHeading3);
+                }
+
+                if (cSeason == '1') {
+                    $(".valseason").html("On Season");
+                    $('#Season').val('On Season');
+                }
+                else if (cSeason == '2') {
+                    $(".valseason").html("Off Season");
+                    $('#Season').val('Off Season');
+                }
+
+                if (cRoom == '1') {
+                    $(".valroom").html(pRoomtype1);
+                    $('#Room').val(pRoomtype1);
+                }
+                else if (cRoom == '2') {
+                    $(".valroom").html(pRoomtype2);
+                    $('#Room').val(pRoomtype2);
+                }
+                else if (cRoom == '3') {
+                    $(".valroom").html(pRoomtype3);
+                    $('#Room').val(pRoomtype3);
+                }
+
+            });
+
+
+            var btn = $('#submit');
+            var status = $('#status');
+            $('#bookForm').ajaxForm({
+                beforeSend: function () {
+                    btn.button('loading');
+                },
+                success: function (d) {
+                   //  alert(d);
+                },
+                complete: function (xhr) {
+                    document.getElementById("bookForm").reset();
+                    btn.button('reset');
+                    status.html(xhr.responseText);
+                }
+            });
+
+        });
+    </script>
+
+}

@@ -1,0 +1,57 @@
+﻿@{
+    ViewBag.Title = "Banjaraworld Packages";
+    ViewBag.BG1 = "BG1.jpg";
+    ViewBag.BG2 = "BG2.jpg";
+}
+
+@section Styles{
+    <link href="~/Content/PackageBlock.css" rel="stylesheet" />
+}
+
+<div class="container">
+    <div class="well" style="color:rgb(24, 188, 156);background-color:white">
+        <div class="row">
+            <div class="col-sm-12" style="text-align:center">
+                <font size="5%">Banjaraworld Packages</font>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+
+        @foreach (tbl_Package p in Model.Packages)
+        {
+
+            string PriceCoord = p.pkg_DefaultDay + p.pkg_DefaultRoom + (Convert.ToInt32(p.pkg_DefaultSeason) + 1).ToString();
+            var price = p.tbl_Price.Where(w => w.prc_Coordinate == PriceCoord && w.prc_PackageId == p.pkg_ID).FirstOrDefault().prc_Price;
+
+            <div class="col-sm-3">
+                <div class="product-image-wrapper">
+                    <div class="single-products">
+                        <div class="productinfo text-center">
+                            <img src="@ViewBag.PicturePath/@p.pkg_SquareImage" alt="@p.pkf_Name" />
+                            <h2>Rs. @price</h2>
+                            <p>@p.pkf_Name</p>
+                            <p>@p.pkg_Subtitle</p>
+                            <a href="#" class="btn add-to-cart" style="background-color:#FE980F;color:white"><i class="fa fa-plus"></i>See Details</a>
+                        </div>
+                        <div class="product-overlay">
+                            <div class="overlay-content">
+                                <p>@p.pkg_Overview</p>
+                                <a href="#" class="btn btn-default add-to-cart"><i class="fa fa-send-o"></i>See Details</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="choose">
+                        <i class="fa fa-hotel" title="Hotel Available"> </i>
+                        <i class="fa fa-coffee" title="Breakfast Available"> </i>
+                        <i class="fa fa-bus" title="Transport Available"> </i>
+                        <i class="fa fa-picture-o" title="Site Seeing Available"> </i>
+                        <i class="fa fa-automobile" title="Cab Facility Available"> </i>
+                    </div>
+                </div>
+            </div>
+        }
+
+    </div>
+</div>

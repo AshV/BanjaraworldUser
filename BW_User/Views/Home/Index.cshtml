@@ -1,0 +1,146 @@
+﻿@using BW_User
+@model dynamic
+@{
+    ViewBag.Title = "Home";
+    ViewBag.BG1 = "BG1.jpg";
+    ViewBag.BG2 = "BG2.jpg";
+}
+
+@section Styles{
+    <link rel="stylesheet" href="~/Content/datepicker.css" />
+    <link href="~/Content/js-image-slider.css" rel="stylesheet" type="text/css" />
+    <style>
+        .table {
+            margin-bottom: 10px;
+        }
+    </style>
+}
+
+<!--Logo & Contact Header-->
+<div class="container">
+    @*<img src="@ViewBag.PicturePath/LogoBanner.jpg" class="img-responsive img-rounded" width="100%" />
+        <div style="height:7px"></div>*@
+    <div class="well" style="padding:10px;color:rgb(24, 188, 156);background-color:rgb(255, 255, 255);padding-left:20px;padding-right:20px">
+        <div class="row">
+            <div class="col-sm-3">
+                <img src="@ViewBag.PicturePath/Logo.png" />
+            </div>
+            <div class="col-sm-9" style="text-align:right">
+                <h5><span class="glyphicon glyphicon-envelope"></span>  contact@banjaraworld.com</h5>
+                <h5><span class="glyphicon glyphicon-earphone"></span>  +91-90-4441-7083</h5>
+                <h5><span class="glyphicon glyphicon-earphone"></span>  +91-78-6079-6793</h5>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Slider & Contact Form-->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Send us your enquiry</h3>
+                </div>
+                <div class="panel-body">
+                    @using (Html.BeginForm("EnquiryMail", "Home", FormMethod.Post, new { @class = "form-horizontal row-fluid" }))
+                    {
+                        <input type="text" class="form-control" placeholder="Your Name..." id="txtName" name="Name" />
+                        <input type="tel" class="form-control" placeholder="Your Mobile Number..." id="txtMobile" name="Mobile" required />
+                        <input type="email" class="form-control" placeholder="Your Email..." id="txtMail" name="Mail" />
+                        <input type="text" class="form-control" placeholder="Journey Date..." id="txtDate" name="Date">
+                        <input type="text" class="form-control" placeholder="Source..." id="txtSource" name="Source" />
+                        <input type="text" class="form-control" placeholder="Destination..." id="txtDestination" name="Destination" />
+    <input type="submit" data-loading-text="Sending..." class="btn btn-success" style="width:100%" value="Send Enquiry" id="submit" name="Submit" />
+                    }
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-8">
+            <div id="sliderFrame">
+                <div id="slider">
+                    <a class="lazyImage" href="@ViewBag.PicturePath/1.jpg" title="Welcome To Banjaraworld"></a>
+                    <a class="lazyImage" href="@ViewBag.PicturePath/2.jpg"></a>
+                    <a class="lazyImage" href="@ViewBag.PicturePath/3.jpg"></a>
+                    <a class="lazyImage" href="@ViewBag.PicturePath/4.jpg"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="height:1px;background-color:white"></div>
+    <div style="height:5px"></div>
+</div>
+
+<!--Featured Packages-->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Featured Packages</h3>
+                </div>
+            </div>
+            <div class="row">
+                @foreach (tbl_Package p in Model.Packages)
+                {
+                    string PriceCoord = p.pkg_DefaultDay + p.pkg_DefaultRoom + (Convert.ToInt32(p.pkg_DefaultSeason) + 1).ToString();
+                    var price = p.tbl_Price.Where(w => w.prc_Coordinate == PriceCoord && w.prc_PackageId == p.pkg_ID).FirstOrDefault().prc_Price;
+                    //string Day = p.pkg_DefaultDay;
+                    //string Room = p.pkg_DefaultRoom;
+                    //string Season = (Convert.ToInt32(p.pkg_DefaultSeason) + 1).ToString();
+
+                    <div class="col-sm-4">
+                        <div class="panel panel-success">
+                            <div class="panel-body">
+                                <img class="img-responsive img-rounded" src="@ViewBag.PicturePath/@p.pkg_SquareImage" />
+                                <h5 style="text-align:center">@p.pkf_Name</h5>
+                                <h4 style="text-align:center">Rs. @price</h4>
+                                <a href="~/Travel/Package/@p.pkg_ID" class="btn btn-warning" style="width:100%">See Details</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="list-group">
+                <a href="#" class="list-group-item active-success">
+                    <b>Browse by Categories</b>
+                </a>
+                @{
+                    List<BW_User.tbl_Subcategory> Subcategories = ViewBag.Subcategory;
+                    foreach (tbl_Subcategory scat in Subcategories)
+                    {
+                         <a href="~/Travel/Subcategory/@scat.sct_ID" class="list-group-item">  @scat.sct_Name </a>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>
+@section AsyncForms{
+
+    <script src="~/scripts/jquery.form.min.js" type="text/javascript"></script>
+
+    <script>
+        (function () {
+
+            var btn;
+
+            $('form').ajaxForm({                
+                beforeSend: function () {
+                    btn = $('#btnMain');
+                    btn.button('loading');
+                },
+                success: function (d) {
+                    //                    alert("Done");
+                },
+                complete: function (xhr) {
+                    document.getElementsByClassName("form-horizontal")[0].reset();
+                    alert("Thanks for contacting us.");
+                    btn.button('reset');
+                }
+            });
+        })();
+    </script>
+}

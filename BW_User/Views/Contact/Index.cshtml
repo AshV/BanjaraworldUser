@@ -1,0 +1,80 @@
+﻿
+@{
+    ViewBag.Title = "Contact";
+}
+
+
+<div class="map" style="position:relative">
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d57163.108697485164!2d80.31812670751958!3d26.433340209749804!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x399c47ba3b5e4cd7%3A0x6ed8fe0594d2434b!2sBarra+KDA+Market!5e0!3m2!1sen!2sin!4v1428241505761" width="100%" height="300" frameborder="0" style="border:0"></iframe>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-5">
+            <div class="well">
+                @using (Html.BeginForm("ContactMail", "Contact", FormMethod.Post, new  { id = "cform" }))
+                {
+                   <div class="form-group">
+                        <input type="text" class="form-control" name="txtName" id="Name" placeholder="Name..."/>
+                    </div>
+                    <div class="form-group">
+                        <input type="tel" class="form-control" name="txtPhone" id="Phone" placeholder="Mobile..."/>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" class="form-control" name="txtEmail" id="EMail" placeholder="E-Mail..."/>
+                    </div>
+                    <div class="form-group">
+                        <textarea style="height:100px" name="txtMessage" class="form-control" id="Message" placeholder="Your Message..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" id="cBtn" data-loading-text="Sending..." style="width:100%" class="btn btn-danger">Get me in touch</button>
+                        <div id="status"></div>
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="col-sm-7">
+            <div class="well" style="height:395px">
+                <div><h3>Address</h3></div>
+                <div style="height:1px;background-color:red"></div>
+                <div style="text-align:right">
+                    <h4>113, KDA Market</h4>
+                    <h4>Barra 2, Kanpur</h4>
+                    <h4>Uttar Pradesh (India)</h4>
+                </div>
+                <div><h3>Contact</h3></div>
+                <div style="height:1px;background-color:red"></div>
+                <div style="text-align:right">
+                    <h4>+91-90-4441-7083</h4>
+                    <h4>+91-78-6079-6793</h4>
+                    <h4>contact@banjaraworld.com</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section AsyncForms{
+    
+    <script src="~/scripts/jquery.form.min.js" type="text/javascript"></script>
+
+    <script>
+        (function () {
+            var btn;
+            $('form').ajaxForm({
+                beforeSend: function () {
+                    btn = $('#cBtn');
+                    btn.button('loading');
+                },
+                success: function (d) {
+                   // alert("Done");
+                },
+                complete: function (xhr) {
+                    alert("Thanks for Contacting us.");
+                    btn.button('reset');
+                    document.getElementById("cform").reset
+                }
+            });
+        })();
+    </script>
+}

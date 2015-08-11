@@ -1,0 +1,53 @@
+﻿@{
+    ViewBag.Title = "Categories";
+    ViewBag.BG1 = "BG1.jpg";
+    ViewBag.BG2 = "BG2.jpg";
+
+    List<BW_User.tbl_Subcategory> AllSubcategories = ViewBag.Subcategory;
+}
+
+@section Styles{
+    <link href="~/Content/Category.css" rel="stylesheet" />
+}
+
+
+<div class="container">
+    <div class="well" style="color:rgb(24, 188, 156);background-color:white">
+        <div class="row">
+            <div class="col-sm-12" style="text-align:center">
+                <font size="5%">Banjaraworld Subcategories</font>
+            </div>
+        </div>
+    </div>
+    <section class="no-padding" id="portfolio">
+        <div class="container-fluid">
+            <div class="row no-gutter">
+                @{
+                    string AllCats = "";
+                    foreach (tbl_Subcategory sct in AllSubcategories)
+                    {
+                        AllCats += @"<div class='col-lg-4 col-sm-6'>
+                            <a href='../Category/" + @sct.sct_ID + @"' class='portfolio-box'>
+                                <img src='" + @ViewBag.PicturePath + "/" + sct.sct_SquareImage + @"' class='img-responsive' alt=''>
+                                <div class='portfolio-box-caption'>
+                                    <div class='portfolio-box-caption-content'>
+                                        <div class='project-category text-faded'>
+                                            Subcategory
+                                      </div>
+                                        <div class='project-name'>
+                                            " + sct.sct_Name + @" Packages
+                                       </div>
+                                    </div>
+                                </div>
+                              </a>
+                         </div>";
+                    }
+                    @Html.Raw(AllCats);
+                }
+
+            </div>
+        </div>
+    </section>
+</div>
+
+<hr />
